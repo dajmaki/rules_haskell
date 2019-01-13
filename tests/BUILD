@@ -11,7 +11,7 @@ load(
 
 package(default_testonly = 1)
 
-ghc_version = "8.4.4"
+ghc_version = "8.6.3"
 
 haskell_toolchain(
     name = "ghc",
@@ -20,27 +20,7 @@ haskell_toolchain(
     # proto_library rules (from com_google_protobuf) can't themselves
     # be testonly.
     testonly = 0,
-    c2hs = "@hackage-c2hs//:bin",
-    compiler_flags = [
-        "-XStandaloneDeriving",  # Flag used at compile time
-        "-threaded",  # Flag used at link time
-
-        # Used by `tests/repl-flags`
-        "-DTESTS_TOOLCHAIN_COMPILER_FLAGS",
-        "-XNoOverloadedStrings",  # this is the default, so it does not harm other tests
-    ],
-    haddock_flags = ["-U"],
-    locale_archive = select({
-        # For some reason glibcLocales is not available on Darwin.
-        "@bazel_tools//src/conditions:darwin": None,
-        "//conditions:default": "@glib_locales//:locale-archive",
-    }),
-    repl_ghci_args = [
-        # Used by `tests/repl-flags`
-        "-UTESTS_TOOLCHAIN_REPL_FLAGS",  # The repl test will need this flag, but set by the local `repl_ghci_args`.
-        "-XOverloadedStrings",  # The repl test will need OverloadedString
-    ],
-    tools = "@hackage-ghc//:bin",
+    tools = "@ghc//:bin",
     version = ghc_version,
 )
 
