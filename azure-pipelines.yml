@@ -28,3 +28,5 @@ jobs:
       # C:\bazel\bazel.exe test //tests/binary-simple
       /c/bazel/bazel.exe test //tests/binary-simple
     displayName: 'Build and run tests'
+
+
