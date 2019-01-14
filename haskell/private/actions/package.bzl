@@ -107,6 +107,7 @@ def package(hs, dep_info, interfaces_dir, interfaces_dir_prof, static_library, d
             set.to_depset(dep_info.package_confs),
             set.to_depset(dep_info.package_caches),
             depset(interfaces_dirs),
+            depset([e.mangled_lib for e in set.to_list(dep_info.external_libraries)]),
             depset([
                 input
                 for input in [
