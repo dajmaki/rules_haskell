@@ -35,6 +35,7 @@ load(
     _haskell_import_impl = "haskell_import_impl",
     _haskell_library_impl = "haskell_library_impl",
     _haskell_test_impl = "haskell_test_impl",
+    _haskell_repl_impl = "haskell_repl_impl",
 )
 
 # For re-exports:
@@ -257,6 +258,30 @@ Often, targets of this type will be generated automatically by
 frameworks such as Hazel.
 
 """
+
+
+haskell_repl = rule(
+    _haskell_repl_impl,
+    attrs = dict(
+      deps = attr.label_list(
+          doc = "List of Haskell libraries to be included in repl target.",
+      ),
+      _ghci_script = attr.label(
+          allow_single_file = True,
+          default = Label("@io_tweag_rules_haskell//haskell:assets/ghci_script"),
+      ),
+      _ghci_repl_wrapper = attr.label(
+          allow_single_file = True,
+          default = Label("@io_tweag_rules_haskell//haskell:private/ghci_repl_wrapper.sh"),
+      ),
+    ),
+    outputs = {
+        "repl": "%{name}@repl",
+    },
+    toolchains = [
+        "@io_tweag_rules_haskell//haskell:toolchain",
+    ],
+)
 
 haskell_doc = _haskell_doc
 

@@ -12,6 +12,7 @@ load(
     "haskell_proto_toolchain",
     "haskell_test",
     "haskell_toolchain",
+    "haskell_repl"
 )
 
 package(default_testonly = 1)
@@ -384,4 +385,13 @@ haskell_binary(
         "@hackage//:hspec",
         "@hackage//:hspec-core",
     ],
+)
+
+
+haskell_repl(
+  name = "repl-test",
+  deps = [
+    "//tests/two-libs:one",
+    "//tests/two-libs:two",
+  ]
 )

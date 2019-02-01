@@ -198,6 +198,35 @@ def _haskell_binary_common_impl(ctx, is_test):
         ),
     ]
 
+def haskell_repl_impl(ctx):
+    hs = haskell_context(ctx)
+    dep_info = gather_dep_info(ctx)
+
+    acc = HaskellLibraryInfo(
+      source_files = set.empty(),
+    )
+
+    for dep in ctx.attr.deps:
+      if HaskellLibraryInfo in dep:
+        lib_info = dep[HaskellLibraryInfo]
+        acc = HaskellLibraryInfo(
+          source_files = set.union(acc.source_files, lib_info.source_files),
+
+        )
+
+    build_haskell_repl(
+        hs,
+        ghci_script = ctx.file._ghci_script,
+        ghci_repl_wrapper = ctx.file._ghci_repl_wrapper,
+        compiler_flags = [],
+        repl_ghci_args = [],
+        output = ctx.outputs.repl,
+        package_caches = dep_info.package_caches,
+        version = None,
+        build_info = dep_info,
+        lib_info = lib_info,
+    )
+
 def haskell_library_impl(ctx):
     hs = haskell_context(ctx)
     dep_info = gather_dep_info(ctx)

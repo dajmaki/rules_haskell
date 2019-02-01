@@ -59,7 +59,7 @@ test_ghc_version = "8.6.3"
 #
 # See: https://ghc.haskell.org/trac/ghc/ticket/16057 for details.
 
-bindists_ghc_version = "8.6.2"
+bindists_ghc_version = "8.6.3"
 
 test_compiler_flags = [
     "-XStandaloneDeriving",  # Flag used at compile time
